@@ -169,10 +169,7 @@ const nodeColumns: ColumnDef<typeof MOCK_NODES[0]>[] = [
 
 export default function AdminOrchestration() {
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">Orchestration</h1>
-      </div>
+    <div className="space-y-6">
 
       {/* Channel Lifecycle */}
       <div className="space-y-4">

@@ -228,10 +228,7 @@ function SamplePayloadCard({ event, payload }: { event: string; payload: object 
 
 export default function SubscriberIntegration() {
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">Integration</h1>
-      </div>
+    <div className="space-y-6">
 
       {/* API Keys */}
       <div className="space-y-4">

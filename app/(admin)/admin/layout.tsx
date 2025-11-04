@@ -1,4 +1,6 @@
-import { DashboardNav } from "@/components/layouts/dashboard-nav";
+import { AppSidebar } from "@/components/layouts/app-sidebar";
+import { DashboardHeader } from "@/components/layouts/dashboard-header";
+import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import {
   LayoutDashboard,
   Users,
@@ -47,14 +49,12 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex h-screen">
-      <DashboardNav
-        items={navItems}
-        title="Flowrate Admin"
-        currentPath="/admin"
-      />
-      <main className="flex-1 overflow-auto">{children}</main>
-    </div>
+    <SidebarProvider>
+      <AppSidebar items={navItems} title="Admin" />
+      <SidebarInset>
+        <DashboardHeader defaultTitle="Flowrate Admin" />
+        <main className="flex-1 overflow-auto p-6">{children}</main>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }
-

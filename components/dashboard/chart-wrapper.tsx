@@ -27,7 +27,7 @@ export function ChartWrapper({
   };
 
   return (
-    <Card>
+    <Card className="w-full">
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle>{title}</CardTitle>
@@ -42,7 +42,7 @@ export function ChartWrapper({
           </Tabs>
         </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="w-full">
         {children}
       </CardContent>
     </Card>

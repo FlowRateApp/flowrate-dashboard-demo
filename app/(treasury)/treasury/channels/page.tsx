@@ -13,6 +13,14 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ColumnDef } from "@tanstack/react-table";
@@ -25,6 +33,7 @@ import {
 import { MOCK_TREASURIES } from "@/lib/mock-data/treasury";
 import type { Channel } from "@/types";
 import { X } from "lucide-react";
+import { format } from "date-fns";
 
 // Get first treasury for demo
 const treasury = MOCK_TREASURIES[0];
@@ -36,6 +45,89 @@ const treasuryId = treasury.id;
 // Get all channels for treasury's nodes
 const nodes = getNodesByTreasuryId(treasuryId);
 const allChannels = nodes.flatMap((node) => getChannelsByNodeId(node.id));
+
+// Channel detail drawer component
+function ChannelDetailDrawer({ channel }: { channel: Channel }) {
+  const node = nodes.find((n) => n.id === channel.nodeId);
+  
+  return (
+    <Drawer>
+      <DrawerTrigger asChild>
+        <Button variant="outline" size="sm">
+          View
+        </Button>
+      </DrawerTrigger>
+      <DrawerContent>
+        <div className="mx-auto w-full max-w-sm">
+          <DrawerHeader>
+            <DrawerTitle>Channel Details</DrawerTitle>
+            <DrawerDescription>Channel ID: {channel.id}</DrawerDescription>
+          </DrawerHeader>
+          <div className="p-4 space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <p className="text-sm text-muted-foreground">Channel ID</p>
+                <p className="font-mono text-xs font-medium">{channel.id}</p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">Node</p>
+                <p className="font-medium">{node?.alias || channel.nodeId}</p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">Peer</p>
+                <p className="font-mono text-xs font-medium">{channel.peer}</p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">Status</p>
+                <Badge variant={channel.isActive ? "default" : "secondary"}>
+                  {channel.isActive ? "Active" : "Inactive"}
+                </Badge>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">Capacity</p>
+                <p className="font-medium">{channel.capacity.toFixed(8)} BTC</p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">Utilization</p>
+                <p className="font-medium">{channel.utilization.toFixed(1)}%</p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">Local Balance</p>
+                <p className="font-medium">{channel.localBalance.toFixed(8)} BTC</p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">Remote Balance</p>
+                <p className="font-medium">{channel.remoteBalance.toFixed(8)} BTC</p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">Base Fee</p>
+                <p className="font-medium">{channel.baseFee} msat</p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">Fee PPM</p>
+                <p className="font-medium">{channel.feePPM}</p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">HTLC Success Rate</p>
+                <p className="font-medium">{channel.htlcSuccessRate.toFixed(1)}%</p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">Uptime</p>
+                <p className="font-medium">{channel.uptime.toFixed(1)}%</p>
+              </div>
+              <div className="col-span-2">
+                <p className="text-sm text-muted-foreground">Last Updated</p>
+                <p className="font-medium">
+                  {format(new Date(channel.lastUpdated), "MMM dd, yyyy HH:mm:ss")}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </DrawerContent>
+    </Drawer>
+  );
+}
 
 // Table columns
 const columns: ColumnDef<Channel>[] = [
@@ -115,9 +207,7 @@ const columns: ColumnDef<Channel>[] = [
     header: "Actions",
     cell: ({ row }) => (
       <div className="flex items-center gap-2">
-        <Button variant="outline" size="sm" asChild>
-          <a href={`/treasury/channels/${row.original.id}`}>View</a>
-        </Button>
+        <ChannelDetailDrawer channel={row.original} />
         <AlertDialog>
           <AlertDialogTrigger asChild>
             <Button variant="destructive" size="sm" disabled={!row.original.isActive}>
@@ -147,10 +237,7 @@ const columns: ColumnDef<Channel>[] = [
 
 export default function TreasuryChannels() {
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">Channels</h1>
-      </div>
+    <div className="space-y-6">
       <DataTable
         columns={columns}
         data={allChannels}

@@ -99,11 +99,7 @@ export default function TreasuryBilling() {
   }
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">Billing & Statements</h1>
-      </div>
-
+    <div className="space-y-6">
       {/* Monthly Statements */}
       <div className="space-y-4">
         <h2 className="text-xl font-semibold">Monthly Statements</h2>

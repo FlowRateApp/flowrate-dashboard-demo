@@ -116,10 +116,7 @@ const columns: ColumnDef<Invoice>[] = [
 
 export default function SubscriberInvoices() {
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">Invoices</h1>
-      </div>
+    <div className="space-y-6">
       <DataTable
         columns={columns}
         data={invoices}

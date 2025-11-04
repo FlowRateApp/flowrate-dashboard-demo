@@ -64,10 +64,7 @@ function QueueCard({
 
 export default function AdminCommandCenter() {
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">Command Center</h1>
-      </div>
+    <div className="space-y-6">
 
       {/* KPI Row */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
