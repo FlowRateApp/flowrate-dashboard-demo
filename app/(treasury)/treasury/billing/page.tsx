@@ -20,6 +20,23 @@ const treasuryId = treasury.id;
 
 const statements = getStatementsByTreasuryId(treasuryId);
 
+// Export button component
+function ExportButton({ statement }: { statement: Statement }) {
+  const { exportToCSV } = useExportCSV();
+  return (
+    <Button
+      variant="outline"
+      size="sm"
+      onClick={() => {
+        exportToCSV([statement], `statement-${statement.period}`);
+      }}
+    >
+      <Download className="h-4 w-4 mr-1" />
+      CSV
+    </Button>
+  );
+}
+
 // Table columns
 const columns: ColumnDef<Statement>[] = [
   {
@@ -63,33 +80,21 @@ const columns: ColumnDef<Statement>[] = [
   {
     id: "actions",
     header: "Actions",
-    cell: ({ row }) => {
-      const { exportToCSV } = useExportCSV();
-      return (
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => {
-              exportToCSV([row.original], `statement-${row.original.period}`);
-            }}
+    cell: ({ row }) => (
+      <div className="flex items-center gap-2">
+        <ExportButton statement={row.original} />
+        <Button variant="outline" size="sm" asChild>
+          <a
+            href={row.original.downloadUrls.pdf}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             <Download className="h-4 w-4 mr-1" />
-            CSV
-          </Button>
-          <Button variant="outline" size="sm" asChild>
-            <a
-              href={row.original.downloadUrls.pdf}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Download className="h-4 w-4 mr-1" />
-              PDF
-            </a>
-          </Button>
-        </div>
-      );
-    },
+            PDF
+          </a>
+        </Button>
+      </div>
+    ),
   },
 ];
 

@@ -185,7 +185,7 @@ function CreateAPIKeyDialog() {
               </Button>
             </div>
             <p className="text-xs text-muted-foreground mt-1">
-              ⚠️ Save this key now. You won't be able to see it again.
+              ⚠️ Save this key now. You won&apos;t be able to see it again.
             </p>
           </div>
         </div>

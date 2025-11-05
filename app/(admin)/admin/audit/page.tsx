@@ -32,22 +32,25 @@ const userManagementData = [
   })),
 ];
 
+// Expand button component
+function ExpandButton() {
+  const [expanded, setExpanded] = useState(false);
+  return (
+    <button onClick={() => setExpanded(!expanded)} className="p-1">
+      {expanded ? (
+        <ChevronDown className="h-4 w-4" />
+      ) : (
+        <ChevronRight className="h-4 w-4" />
+      )}
+    </button>
+  );
+}
+
 // Audit log columns
 const auditLogColumns: ColumnDef<AuditLog>[] = [
   {
     id: "expand",
-    cell: ({ row }) => {
-      const [expanded, setExpanded] = useState(false);
-      return (
-        <button onClick={() => setExpanded(!expanded)} className="p-1">
-          {expanded ? (
-            <ChevronDown className="h-4 w-4" />
-          ) : (
-            <ChevronRight className="h-4 w-4" />
-          )}
-        </button>
-      );
-    },
+    cell: () => <ExpandButton />,
   },
   {
     accessorKey: "timestamp",
