@@ -8,5 +8,3 @@ This project uses [`next-password-protect`](https://github.com/instantcommerce/n
 - `PASSWORD_PROTECT` — optional. Defaults to `"true"`. Set to `"false"` to disable the password gate during development.
 
 After changing either variable, restart the dev server so Next.js picks up the new values.
-
-

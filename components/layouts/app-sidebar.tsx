@@ -28,6 +28,7 @@ interface AppSidebarProps {
 
 export function AppSidebar({ items, title }: AppSidebarProps) {
   const pathname = usePathname();
+  const normalizedPathname = pathname ?? "";
   const { state } = useSidebar();
 
   return (
@@ -50,7 +51,9 @@ export function AppSidebar({ items, title }: AppSidebarProps) {
       <SidebarContent>
         <SidebarMenu className={cn(state === "collapsed" && "items-center px-0")}>
           {items.map((item) => {
-            const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
+            const isActive =
+              normalizedPathname === item.href ||
+              normalizedPathname.startsWith(item.href + "/");
             return (
               <SidebarMenuItem key={item.href} className={cn(state === "collapsed" && "flex justify-center w-full")}>
                 <SidebarMenuButton

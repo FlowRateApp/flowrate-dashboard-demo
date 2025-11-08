@@ -23,6 +23,7 @@ interface DashboardNavProps {
 export function DashboardNav({ items, title, currentPath }: DashboardNavProps) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const pathname = usePathname();
+  const normalizedPathname = pathname ?? currentPath ?? "";
 
   return (
     <>
@@ -33,7 +34,9 @@ export function DashboardNav({ items, title, currentPath }: DashboardNavProps) {
         </div>
         <nav className="flex-1 p-4 space-y-1">
           {items.map((item) => {
-            const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
+            const isActive =
+              normalizedPathname === item.href ||
+              normalizedPathname.startsWith(item.href + "/");
             return (
               <Link
                 key={item.href}
@@ -67,7 +70,9 @@ export function DashboardNav({ items, title, currentPath }: DashboardNavProps) {
           </div>
           <nav className="flex-1 p-4 space-y-1">
             {items.map((item) => {
-              const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
+              const isActive =
+                normalizedPathname === item.href ||
+                normalizedPathname.startsWith(item.href + "/");
               return (
                 <Link
                   key={item.href}
